@@ -1,0 +1,27 @@
+<ion-item *ngIf="!hideDate">
+  <ion-label>Data</ion-label>
+  <ion-datetime (ionChange)="timeChanged()" displayFormat="DD de MMMM de YYYY" [(ngModel)]="myDate.day"
+  monthNames="Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro"
+  min="2000"
+  max="2099"
+  ></ion-datetime>
+</ion-item>
+
+<ion-item>
+  <ion-label>{{title}}</ion-label>
+  <ion-datetime *ngIf="!hideSeconds" (ionChange)="timeChanged()" displayFormat="HH:mm:ss" [(ngModel)]="myDate.time"></ion-datetime>
+  <ion-datetime *ngIf="hideSeconds" (ionChange)="timeChanged()" displayFormat="HH:mm" [(ngModel)]="myDate.time"></ion-datetime>
+</ion-item>
+
+<ion-item *ngIf="!hideWeekDays">
+  <ion-label>Dia da Semana</ion-label>
+  <ion-select [multiple]="multipleWeekDays" (ionChange)="timeChanged()" [(ngModel)]="myDate.weekDay">
+    <ion-option value="1">Domingo</ion-option>
+    <ion-option value="2">Segunda-feira</ion-option>
+    <ion-option value="3">Terça-feira</ion-option>
+    <ion-option value="4">Quarta-feira</ion-option>
+    <ion-option value="5">Quinta-feira</ion-option>
+    <ion-option value="6">Sexta-feira</ion-option>
+    <ion-option value="7">Sabado</ion-option>
+  </ion-select>
+</ion-item>

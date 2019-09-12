@@ -1,0 +1,92 @@
+<ion-list>
+  <ion-list-header color="primary">
+    Ações do Sensor de Luz
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-list>
+    <ion-list *ngFor="let item of data.event; let i = index">
+      <ion-list-header color="light">
+        Ação {{i + 1}}
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Ativar</ion-label>
+        <ion-checkbox item-right [(ngModel)]="item.enb" [checked]="item.enb" disabled="false"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>{{this.modNames[0]}}</ion-label>
+        <ion-select [(ngModel)]="item.actionOut1" multiple="false" cancelText="Cancelar" okText="Confirmar">
+          <ion-option value="0">Nada Fazer</ion-option>
+          <ion-option value="1">Ligar</ion-option>
+          <ion-option value="2">Desligar</ion-option>
+          <ion-option value="3">Inverter</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{this.modNames[1]}}</ion-label>
+        <ion-select [(ngModel)]="item.actionOut2" multiple="false" cancelText="Cancelar" okText="Confirmar">
+          <ion-option value="0">Nada Fazer</ion-option>
+          <ion-option value="1">Ligar</ion-option>
+          <ion-option value="2">Desligar</ion-option>
+          <ion-option value="3">Inverter</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Nivel de Luz</ion-label>
+        <ion-select [(ngModel)]="item.lghLevel" multiple="false" cancelText="Cancelar" okText="Confirmar">
+          <ion-option value="1">Nivel de Luz 1</ion-option>
+          <ion-option value="2">Nivel de Luz 2</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <button (click)=eventChanged(i) color="light" ion-button block>Salvar</button>
+      </ion-item>
+
+    </ion-list>
+  </ion-list>
+</ion-list>
+
+
+
+<ion-list>
+  <ion-list-header color="primary">
+    Nivel de Luz
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+    <ion-list>
+      <ion-item>
+        <ion-label>Valor Atual</ion-label>
+        <ion-input disabled="true" [(ngModel)]="data.light.actual" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Tolerancia</ion-label>
+        <ion-input disabled="false" [(ngModel)]="data.light.tol" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <button (click)=tolChanged() color="light" ion-button block>Salvar</button>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngFor="let item of data.light.list; let i = index">
+      <ion-list-header color="light">
+        Nivel de Luz {{i + 1}}
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Valor Desejado</ion-label>
+        <ion-input disabled="false" [(ngModel)]="item.value" type="number"></ion-input>
+      </ion-item>
+      <button ion-item>
+        <ion-icon (click)="this.data.light.list[i].value = this.data.light.actual" name="md-arrow-round-down" item-right></ion-icon>
+        Pegar Valor Atual
+      </button>
+      <ion-item>
+        <button (click)=lightChanged(i) color="light" ion-button block>Salvar</button>
+      </ion-item>
+    </ion-list>
+</ion-list>

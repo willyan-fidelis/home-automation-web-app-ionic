@@ -1,0 +1,138 @@
+<!--
+  Generated template for the Notification page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Notificações</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="md-information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+
+    <ion-list-header>Eventos</ion-list-header>
+
+    <div *ngFor="let _elem of this.logList; let i = index">
+      <ion-item (click)="openModal({element: _elem})">
+        <ion-avatar style="font-size: 3rem; color: red" item-left>
+          <ion-icon color="primary" [name]="_elem.icon"></ion-icon>
+        </ion-avatar>
+        <h2>{{_elem.title}}</h2>
+        <p>{{_elem.description}}</p>
+        <ion-note item-right>{{_elem.date.getDate()}}/{{_elem.date.getMonth() + 1}}/{{_elem.date.getFullYear()}}</ion-note>
+        <ion-note item-right>{{_elem.date.getHours()}}:{{_elem.date.getMinutes()}}</ion-note>
+      </ion-item>
+    </div>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <!-- <ion-toolbar>
+    <p color="primary">Buscar por: Nome</p>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar> -->
+
+  <ion-list>
+  <ion-item>
+    <ion-label>
+      <div style="font-size: 2rem">
+        <ion-icon name="search"></ion-icon>
+      </div>
+      <!-- {{filterType}} -->
+    </ion-label>
+    <ion-select [(ngModel)]="filterType" multiple="false" cancelText="Cancelar" okText="Confirmar">
+      <ion-option (ionSelect)="onFilterChange('','')" value="1">Tudo</ion-option>
+      <ion-option value="2">Nome</ion-option>
+      <ion-option value="3">Tipo de Menssagem</ion-option>
+      <ion-option value="4">Mês</ion-option>
+      <ion-option value="5">Dia</ion-option>
+      <ion-option value="6">Hora</ion-option>
+      <ion-option value="7">Minuto</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="filterType === '2'">
+    <ion-label>
+      Nome
+    </ion-label>
+    <ion-select [(ngModel)]="filterArg" multiple="false" cancelText="Cancelar" okText="Confirmar">
+      <div *ngFor="let _device of this.deviceList; let i = index">
+        <ion-option (ionSelect)="onFilterChange('title',_device.DB.Name)" [value]="_device.DB.Name">{{_device.DB.Name}}</ion-option>
+      </div>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="filterType === '3'">
+    <ion-label>
+      Mensagens
+    </ion-label>
+    <ion-select multiple="false" cancelText="Cancelar" okText="Confirmar">
+      <div *ngFor="let _obj of this.MsgDescriptionFilter; let i = index">
+        <ion-option (ionSelect)="onFilterChange('description',_obj.description)" [value]="_obj">{{_obj.description}}</ion-option>
+      </div>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="filterType === '4'">
+    <ion-label>
+      Mês
+    </ion-label>
+    <ion-select [(ngModel)]="filterArg" multiple="false" cancelText="Cancelar" okText="Ok">
+      <div *ngFor="let _obj of this.AllMonths(); let i = index">
+        <ion-option (ionSelect)="onFilterChange('Month',_obj)" [value]="_obj">{{_obj + 1}}</ion-option>
+      </div>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="filterType === '5'">
+    <ion-label>
+      Dia
+    </ion-label>
+    <ion-select [(ngModel)]="filterArg" multiple="false" cancelText="Cancelar" okText="Ok">
+      <div *ngFor="let _obj of this.AllDays(); let i = index">
+        <ion-option (ionSelect)="onFilterChange('MonthDay',_obj)" [value]="_obj">{{_obj}}</ion-option>
+      </div>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="filterType === '6'">
+    <ion-label>
+      Hora
+    </ion-label>
+    <ion-select [(ngModel)]="filterArg" multiple="false" cancelText="Cancelar" okText="Ok">
+      <div *ngFor="let _obj of this.AllHour(); let i = index">
+        <ion-option (ionSelect)="onFilterChange('Hours',_obj)" [value]="_obj">{{_obj}}</ion-option>
+      </div>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="filterType === '7'">
+    <ion-label>
+      Minutos
+    </ion-label>
+    <ion-select [(ngModel)]="filterArg" multiple="false" cancelText="Cancelar" okText="Ok">
+      <div *ngFor="let _obj of this.AllMinutes(); let i = index">
+        <ion-option (ionSelect)="onFilterChange('Min',_obj)" [value]="_obj">{{_obj}}</ion-option>
+      </div>
+    </ion-select>
+  </ion-item>
+
+</ion-list>
+
+</ion-footer>

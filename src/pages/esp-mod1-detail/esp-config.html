@@ -1,0 +1,298 @@
+<ion-list>
+  <ion-list-header color="primary">
+    Configuração das Saídas Digitais
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-item>
+    <ion-label>{{this.item.DB.ModuleList[0].Name}}</ion-label>
+    <ion-select [(ngModel)]="this.item.Local.General.M0" multiple="false" cancelText="Cancelar" okText="Confirmar">
+      <ion-option value="0">Contínuo</ion-option>
+      <ion-option value="1">Pulsante</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{this.item.DB.ModuleList[1].Name}}</ion-label>
+    <ion-select [(ngModel)]="this.item.Local.General.M1" multiple="false" cancelText="Cancelar" okText="Confirmar">
+      <ion-option value="0">Contínuo</ion-option>
+      <ion-option value="1">Pulsante</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <button (click)=outTypeChanged() color="light" ion-button block>Salvar</button>
+  </ion-item>
+</ion-list>
+
+<ion-list>
+  <ion-list-header color="primary">
+    Configuração das Entradas Digitais
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-list>
+  <ion-list-header color="title_light">
+    Ações das Entradas Sobre as Saídas
+  </ion-list-header>
+    <ion-item>
+      <ion-label>Entrada 1 - Ação sobre {{this.item.DB.ModuleList[0].Name}}</ion-label>
+      <ion-select [(ngModel)]="this.item.Local.General.Inp1" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <ion-option value="0">Nada Fazer</ion-option>
+        <ion-option value="1">Ligar</ion-option>
+        <ion-option value="2">Desligar</ion-option>
+        <ion-option value="3">Inverter</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Entrada 2 - Ação sobre {{this.item.DB.ModuleList[1].Name}}</ion-label>
+      <ion-select [(ngModel)]="this.item.Local.General.Inp2" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <ion-option value="0">Nada Fazer</ion-option>
+        <ion-option value="1">Ligar</ion-option>
+        <ion-option value="2">Desligar</ion-option>
+        <ion-option value="3">Inverter</ion-option>
+      </ion-select>
+    </ion-item>
+
+  </ion-list>
+  <ion-list>
+  <ion-list-header color="title_light">
+    Avançado
+  </ion-list-header>
+    <ion-item>
+      <ion-label>Escolha uma opção: 1)Entrada única para Ligar/Desligar todas as Saidas e Fita de LED ou 2)Três entradas sem fita de LED</ion-label>
+      <ion-select [(ngModel)]="this.item.Local.General.InpRGB" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <ion-option value="true">1)Única Entrada + Fita de LED</ion-option>
+        <ion-option value="false">2)Três Entradas Sem Fita de LED</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Entrada 3 - Entrada p/ Sensor ou Para Ligar/Desligar Saidas</ion-label>
+      <ion-select [(ngModel)]="this.item.Local.General.InpRGB" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <ion-option disabled="true" value="false">Entrada p/ Sensor</ion-option>
+        <ion-option disabled="true" value="true">Ligar/Desligar Saidas</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-item>
+    <button (click)=inpTypeChanged() color="light" ion-button block>Salvar</button>
+  </ion-item>
+</ion-list>
+
+<ion-list>
+  <ion-list-header color="primary">
+    Dados Rede Wifi Doméstica
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Nome</ion-label>
+    <ion-input disabled="false" [(ngModel)]="this.item.Local.STAConfig.name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Senha</ion-label>
+    <ion-input disabled="false" [(ngModel)]="this.item.Local.STAConfig.pwd" type="password"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>MAC Roteador</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.STAConfig.mac" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <button (click)=STAChanged($event) color="light" ion-button block>Salvar</button>
+  </ion-item>
+</ion-list>
+<ion-list>
+  <ion-list-header color="primary">
+    Ativar conexão com Rede Domestica
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Ativar</ion-label>
+    <ion-toggle [(ngModel)]="this.item.Local.General.EnbSTA"></ion-toggle>
+  </ion-item>
+  <ion-item>
+    <button (click)=EnbSTA($event) color="light" ion-button block>Salvar</button>
+  </ion-item>
+</ion-list>
+<ion-list>
+  <ion-list-header color="primary">
+    Dados Rede Wifi HomeSense
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Nome</ion-label>
+    <ion-input disabled="false" [(ngModel)]="this.item.Local.APConfig.name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Senha</ion-label>
+    <ion-input disabled="false" [(ngModel)]="this.item.Local.APConfig.pwd" type="password"></ion-input>
+  </ion-item>
+  <ion-item>
+    <button (click)=APChanged($event) color="light" ion-button block>Salvar</button>
+  </ion-item>
+</ion-list>
+
+<ion-list>
+
+  <ion-list>
+    <ion-list-header color="primary">
+      Forma de Comunição desse Aplicativo com o Dispositivo
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Cumunição</ion-label>
+      <ion-select  [(ngModel)]="this.selectedMQTTDevComunList" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <ion-option [value]="devComunEnun.NONE">Nenhuma</ion-option>
+        <ion-option [value]="devComunEnun.MQTT">MQTT Server</ion-option>
+        <ion-option [value]="devComunEnun.WIFI_DIRECT">WiFi Direto</ion-option>
+        <ion-option [value]="devComunEnun.WIFI_LOCAL">WiFi Rede Local</ion-option>
+        <ion-option [value]="devComunEnun.APP_ROUTER">Aplicativo como Ponte(Gaytway)</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="this.selectedMQTTDevComunList == devComunEnun.APP_ROUTER">
+      <ion-label>Selecionar Nome do Celular</ion-label>
+      <ion-select [(ngModel)]="this.selectedAppList.name" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let obj of this.configServiceObj.appList; let i = index">
+          <ion-option (ionSelect)="this.selectedAppList=obj" [value]="obj.name">{{obj.name}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <button (click)="saveDevComun(module)" color="light" ion-button block>Salvar</button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header color="primary">
+      Servidor MQTT
+    </ion-list-header>
+    <ion-item *ngIf="true">
+      <ion-label> Escolha um Servidor:</ion-label>
+      <ion-select  multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let _server of this.configServiceObj.MQTTPreConfigList; let i = index">
+          <ion-option (ionSelect)="this.item.Local.MQTT = _server">{{_server.MQTTHost}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hospedeiro</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.MQTT.MQTTHost" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Tipo/ID</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.MQTT.MQTTType" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <button (click)="editDevice()" color="light" ion-button block>Salvar</button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list-header color="primary">
+    Conexão com a Nuvem
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Servidor</ion-label>
+    <ion-input disabled="false" [(ngModel)]="this.item.Local.MQTT.MQTTHost" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Usuario</ion-label>
+    <ion-input disabled="false" [(ngModel)]="this.item.Local.MQTT.MQTTUser" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Senha</ion-label>
+    <ion-input disabled="false" [(ngModel)]="this.item.Local.MQTT.MQTTUserPwd" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Porta</ion-label>
+    <ion-input disabled="false" [(ngModel)]="this.item.Local.MQTT.MQTTPort" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Ativar Comunição com a Nuvem</ion-label>
+    <ion-checkbox item-right [(ngModel)]="this.item.Local.General.EnbMQTT" [checked]="this.item.Local.General.EnbMQTT" disabled="false"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <button (click)=serverChanged() color="light" ion-button block>Salvar</button>
+  </ion-item>
+</ion-list>
+
+<ion-list>
+  <ion-list-header color="primary">
+    Sobre o dispositivo
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Número</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.DeviceType.number" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Tipo</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.DeviceType.type" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Versão de Software</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.DeviceType.sw" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Versão de Hardware</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.DeviceType.hw" type="text"></ion-input>
+  </ion-item>
+</ion-list>
+<ion-list>
+  <ion-list-header color="primary">
+    Dados de Rede do Dispositivo
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+  <ion-list>
+    <ion-list-header color="light">
+      Estação Wifi
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Mascara de Rede</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.sta_msk" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>MAC Address</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.sta_mac" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Gateway</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.sta_gtw" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>IP</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.sta_ip" type="text"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header color="light">
+      Ponto de Acesso
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Mascara de Rede</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.ap_msk" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>MAC Address</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.ap_mac" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Gateway</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.ap_gtw" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>IP</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.ap_ip" type="text"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-list>

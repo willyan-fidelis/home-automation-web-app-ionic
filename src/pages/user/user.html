@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Usuario</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- <ion-spinner name="bubbles"></ion-spinner> -->
+  <ion-item-group>
+    <ion-item-divider color="light">Conta Ativa:</ion-item-divider>
+    <ion-item>{{this.userServ.user.email}}</ion-item>
+    <button detail-none ion-item (click)="doPrompt()"><ion-icon item-right name="refresh"></ion-icon>Trocar de Senha</button>
+  </ion-item-group>
+</ion-content>

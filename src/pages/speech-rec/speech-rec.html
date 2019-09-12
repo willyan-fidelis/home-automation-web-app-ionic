@@ -1,0 +1,70 @@
+<!--
+  Generated template for the SpeechRecPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Comando de Voz</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <button ion-item>
+    <ion-icon (click)="test()" name="md-infinite" item-right></ion-icon>
+    Testar Comando de Voz
+  </button>
+
+  <button ion-item>
+    <ion-icon (click)="listeningCommand()" name="md-infinite" item-right></ion-icon>
+    Comandar Casa!
+  </button>
+
+  <button ion-item>
+    <ion-icon (click)="setShake(_txt1)" name="md-infinite" item-right></ion-icon>
+    Configurar detector de movimentos!
+  </button>
+  <ion-item>
+    <ion-label>Comando a testar</ion-label>
+    <ion-input disabled="false" [(ngModel)]="_txt1" type="number"></ion-input>
+  </ion-item>
+
+  <button ion-item>
+    <ion-icon (click)="listeningNFC()" name="md-infinite" item-right></ion-icon>
+    Testar NFC - Ler Tag!
+  </button>
+
+  <button ion-item>
+    <ion-icon (click)="getNetworkDetail()" name="md-infinite" item-right></ion-icon>
+    Network
+  </button>
+
+  <button ion-item>
+    <ion-icon (click)="interceptSMS()" name="md-infinite" item-right></ion-icon>
+    interceptSMS
+  </button>
+  
+  <button ion-item>
+    <ion-icon (click)="testSMS()" name="md-infinite" item-right></ion-icon>
+    SMS
+  </button>
+
+  <button ion-item>
+    <ion-icon (click)="testSendSMS()" name="md-infinite" item-right></ion-icon>
+    Ler SMS
+  </button>
+
+  <button ion-item>
+    <ion-icon (click)="testDelSMS()" name="md-infinite" item-right></ion-icon>
+    Deletar SMS
+  </button>
+
+  <button ion-item>
+    <ion-icon (click)="androidPermissionTest()" name="md-infinite" item-right></ion-icon>
+    PERMISSION
+  </button>
+</ion-content>

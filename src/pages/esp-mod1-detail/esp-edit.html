@@ -1,0 +1,119 @@
+<div *ngIf="true"></div>
+<ion-list>
+
+  <ion-list>
+    <ion-list-header color="primary">
+      Dispositivo
+    </ion-list-header>
+    <ion-list-header color="title_light">
+      Geral
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Nome</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.item.DB.Name" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Numero</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.DB.Number" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Local</ion-label>
+      <ion-select [(ngModel)]="this.item.DB.Room" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let _room of roomList; let i = index">
+          <ion-option [value]="_room.Name">{{_room.Name}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Desativado</ion-label>
+      <ion-checkbox item-right [(ngModel)]="this.item.DB.Desactvated" [checked]="this.item.DB.Desactvated" disabled="false"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <button (click)="editDevice(this.item)" color="light" ion-button block>Salvar</button>
+    </ion-item>
+  </ion-list>
+
+  <!-- <ion-list>
+    <ion-list-header color="title_light">
+      Servidor MQTT
+    </ion-list-header>
+    <ion-item *ngIf="true">
+      <ion-label> Escolha um Servidor:</ion-label>
+      <ion-select  multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let _server of this.configServiceObj.MQTTPreConfigList; let i = index">
+          <ion-option (ionSelect)="this.item.DB.MQTT = _server">{{_server.MQTTHost}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hospedeiro</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.DB.MQTT.MQTTHost" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Tipo/ID</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.item.DB.MQTT.MQTTType" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <button (click)="editDevice(this.item)" color="light" ion-button block>Salvar</button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header color="title_light">
+      Forma de Comunição desse Aplicativo com o Dispositivo
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Cumunição</ion-label>
+      <ion-select  [(ngModel)]="this.selectedMQTTDevComunList" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <ion-option [value]="devComunEnun.NONE">Nenhuma</ion-option>
+        <ion-option [value]="devComunEnun.MQTT">MQTT Server</ion-option>
+        <ion-option [value]="devComunEnun.DIRECT">Direto (Wifi)</ion-option>
+        <ion-option [value]="devComunEnun.APP_ROUTER">Aplicativo como Ponte(Gaytway)</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="this.selectedMQTTDevComunList == devComunEnun.APP_ROUTER">
+      <ion-label>Selecionar Nome do Celular</ion-label>
+      <ion-select [(ngModel)]="this.selectedAppList.name" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let obj of this.configServiceObj.appList; let i = index">
+          <ion-option (ionSelect)="this.selectedAppList=obj" [value]="obj.name">{{obj.name}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <button (click)="saveDevComun(module)" color="light" ion-button block>Salvar</button>
+    </ion-item>
+  </ion-list>
+
+</ion-list> -->
+
+<ion-list>
+  <ion-list-header color="primary">
+    Módulos
+  </ion-list-header>
+  <ion-list *ngFor="let module of this.item.DB.ModuleList; let i = index">
+
+      <ion-list-header color="title_light">
+        Módulo {{i + 1}}
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Nome</ion-label>
+        <ion-input disabled="false" [(ngModel)]="module.Name" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Favorito</ion-label>
+        <ion-checkbox item-right [(ngModel)]="module.Favorite" [checked]="module.Favorite" disabled="false"></ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-label>Desativar</ion-label>
+        <ion-checkbox item-right [(ngModel)]="module.Desactvated" [checked]="module.Desactvated" disabled="false"></ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <button (click)="editModule(module)" color="light" ion-button block>Salvar</button>
+      </ion-item>
+  </ion-list>
+  <!--
+  <ion-item>
+    <button color="light" ion-button block>Salvar</button>
+  </ion-item>
+  -->
+</ion-list>

@@ -1,0 +1,41 @@
+<!-- http://www.joshmorony.com/advanced-forms-validation-in-ionic-2/ -->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Novo Usuario</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="loginForm">
+    <!-- {{this.userServ.isLogged()}} {{this.userServ.user.SessionID}}  -->
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="text" [(ngModel)]="this.userServ.user.email" formControlName="email" [class.invalid]="!loginForm.controls.email.valid && (loginForm.controls.email.dirty || submitAttempt)"></ion-input>
+      </ion-item>
+      <!-- Fild error menssage: -->
+      <ion-item *ngIf="!loginForm.controls.email.valid  && (loginForm.controls.email.dirty || submitAttempt)">
+				<p class="error-msg">Por favor entre com um email valido.</p>
+			</ion-item>
+
+      <ion-item>
+        <ion-label floating>Senha</ion-label>
+        <ion-input type="password" [(ngModel)]="this.userServ.user.password" formControlName="pwd" [class.invalid]="!loginForm.controls.pwd.valid && (loginForm.controls.pwd.dirty || submitAttempt)"></ion-input>
+      </ion-item>
+      <!-- Fild error menssage: -->
+      <ion-item *ngIf="!loginForm.controls.pwd.valid  && (loginForm.controls.pwd.dirty || submitAttempt)">
+				<p class="error-msg">Por favor entre com uma senha valida(letras, números, <br>caracter - e _) entre 3 até 30 caracteres.</p>
+			</ion-item>
+
+      <ion-item>
+        <ion-label floating>Confirme a Senha</ion-label>
+        <ion-input type="password" [(ngModel)]="this.pwdConfirm" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+
+    </ion-list>
+    <div>
+      <button ion-button block (click)="this.newUser(this.userServ.user.email, this.userServ.user.password)">Criar Usuario</button>
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,450 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+<ion-content>
+  <br/><br/><br/>
+  <div *ngIf="false" >
+    <button ion-button block (click)="test(_txt1,_txt2);">Test only!</button>
+    <ion-item>
+      <ion-label>Palavra chave</ion-label>
+      <ion-input disabled="false" [(ngModel)]="_txt2" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Comando a testar</ion-label>
+      <ion-input disabled="false" [(ngModel)]="_txt1" type="text"></ion-input>
+    </ion-item>
+  </div>
+  <div *ngIf="false" >
+    <button ion-button block (click)="getOnLineList();">Get List / Go</button>
+  </div>
+  <div *ngIf="gotList">
+    <!-- <ion-list-header>
+      HomeSense
+    </ion-list-header> -->
+    &nbsp;&nbsp;&nbsp;
+    <!-- DeviceListPage!! -->
+    <ion-list *ngIf="this.deviceList.length > 0 && (pageMode === 'AllPages' || pageMode === 'DeviceListPage')">
+      <ion-list-header color="primary">
+      Dispositivos
+      </ion-list-header>
+      <div *ngFor="let _device of this.deviceList; let i = index">
+
+        <ion-item-sliding>
+            <ion-item (click)="openDevice(_device, 30, 'Informações Gerais')" *ngIf="true">
+              <!-- <h2>{{ _device.DB.Name }} / {{ _device.DB.Number }}</h2> -->
+              <ion-avatar item-left>
+                <ion-icon class="big-size" color="primary" name="md-construct"></ion-icon>
+              </ion-avatar>
+              <h2>{{ _device.DB.Name }}</h2>
+              <p>{{ _device.DB.Number }}</p>
+            </ion-item>
+            <ion-item-options side="right" *ngIf="true">
+              <button (click)="openDevice(_device, 8, 'Configurações/Detalhes')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-settings"></ion-icon>
+                <!-- Settings -->
+              </button>
+              <button (click)="openDevice(_device, 7, 'Relógio')" ion-button color="primary" icon-left>
+                <ion-icon name="md-time"></ion-icon>
+                <!-- Settings -->
+              </button>
+              <button (click)="openDevice(_device, 6, 'Sensor de Luz')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-sunny"></ion-icon>
+                <!-- Luz -->
+              </button>
+              <button (click)="openDevice(_device, 5, 'Sensor de Presença')" ion-button color="primary" icon-left>
+                <ion-icon name="md-walk"></ion-icon>
+                <!-- Sensor -->
+              </button>
+              <button (click)="openDevice(_device, 4, 'Alarmes')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-alarm"></ion-icon>
+                <!-- Alarme -->
+              </button>
+              <button (click)="openDevice(_device, 2, 'Status')" ion-button color="primary" icon-left>
+                <ion-icon name="md-information-circle"></ion-icon>
+                <!-- Status -->
+              </button>
+              <button (click)="openDevice(_device, 1, 'Ações')" ion-button color="secondary" icon-left>
+                <ion-icon name="play"></ion-icon>
+                <!-- Ações -->
+              </button>
+            </ion-item-options>
+
+            <ion-item-options side="left" *ngIf="true">
+              <button (click)="openDevice(_device, 31, 'Editar')" ion-button color="primary" icon-left>
+                <ion-icon name="md-create"></ion-icon>
+                &nbsp;&nbsp;&nbsp;Editar&nbsp;&nbsp;&nbsp;
+              </button>
+              <button (click)="shareDevice(_device, 32, 'Compartilhar')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-share"></ion-icon>
+                Share
+              </button>
+              <button (click)="deleteDevice(_device)" ion-button color="primary" icon-left>
+                <ion-icon name="md-trash"></ion-icon>
+                &nbsp;&nbsp;&nbsp;Exluir&nbsp;&nbsp;&nbsp;
+              </button>
+            </ion-item-options>
+        </ion-item-sliding>
+
+        <ion-fab right bottom>
+        	<button (click)="addDevice()" ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+        </ion-fab>
+
+      </div>
+    </ion-list>
+    <!-- ModuleListPage!! -->
+    <ion-list *ngIf="this.deviceList.length > 0 && (pageMode === 'AllPages' || pageMode === 'ModuleListPage')">
+      <ion-list-header color="primary">
+      Lista de Controles
+      </ion-list-header>
+      <div *ngFor="let _device of this.deviceList; let i = index">
+        <div *ngFor="let _mod of _device.DB.ModuleList; let ii = index">
+          <ion-item-sliding *ngIf="_mod.Position < 3 && !_device.DB.Desactvated && !_mod.Desactvated">
+            <ion-item (click)="executeDeviceAction(_device, ii)">
+              <!-- <h2>{{ _mod.Name }} /// {{ _mod.Number }}</h2> -->
+              <!-- <ion-avatar item-left>
+                <ion-icon *ngIf="(modOneApiService.reqRunning() || modOneApiService.reqError())" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                <ion-icon *ngIf="this.deviceList[i].Local.Status.out['M'+ ii] && !modOneApiService.reqRunning()" ngClass="turned-on" name="md-bulb"></ion-icon>
+                <ion-icon *ngIf="!this.deviceList[i].Local.Status.out['M'+ ii] && !modOneApiService.reqRunning()" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+              </ion-avatar>
+              <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles"></ion-spinner>
+              <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon> -->
+              <ion-avatar item-left>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='NOK')" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='ON')" ngClass="turned-on" name="md-bulb"></ion-icon>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='OFF')" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+              </ion-avatar>
+              <ion-spinner *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='SENDING')" item-right name ="circles"></ion-spinner>
+              <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='NOK')" item-right name="alert" color="danger"></ion-icon>
+              <h2>{{ _mod.Name }}</h2>
+              <p>{{ _device.DB.Name }}</p>
+            </ion-item>
+            <ion-item-options>
+              <button (click)="openDevice(_device, 8, 'Configurações/Detalhes')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-settings"></ion-icon>
+                <!-- Settings -->
+              </button>
+              <button (click)="openDevice(_device, 7, 'Relógio')" ion-button color="primary" icon-left>
+                <ion-icon name="md-time"></ion-icon>
+                <!-- Settings -->
+              </button>
+              <button (click)="openDevice(_device, 6, 'Sensor de Luz')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-sunny"></ion-icon>
+                <!-- Luz -->
+              </button>
+              <button (click)="openDevice(_device, 5, 'Sensor de Presença')" ion-button color="primary" icon-left>
+                <ion-icon name="md-walk"></ion-icon>
+                <!-- Sensor -->
+              </button>
+              <button (click)="openDevice(_device, 4, 'Alarmes')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-alarm"></ion-icon>
+                <!-- Alarme -->
+              </button>
+              <button (click)="openDevice(_device, 2, 'Status')" ion-button color="primary" icon-left>
+                <ion-icon name="md-information-circle"></ion-icon>
+                <!-- Status -->
+              </button>
+              <button (click)="openDevice(_device, 1, 'Ações')" ion-button color="secondary" icon-left>
+                <ion-icon name="play"></ion-icon>
+                <!-- Ações -->
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+
+          <ion-item-sliding *ngIf="_mod.Position > 2 && !_device.DB.Desactvated && !_mod.Desactvated">
+            <ion-item (click)="setRGB(_device, ii)">
+
+              <ion-avatar item-left>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='NOK')" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='ON')" ngClass="turned-on" name="md-bulb"></ion-icon>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='OFF')" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+              </ion-avatar>
+              <ion-spinner *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='SENDING')" item-right name ="circles"></ion-spinner>
+              <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='NOK')" item-right name="alert" color="danger"></ion-icon>
+              <h2>{{ _mod.Name }}</h2>
+              <p>{{ _device.DB.Name }}</p>
+            </ion-item>
+            <ion-item-options>
+              <button (click)="openDevice(_device, 2)" ion-button color="primary" icon-left>
+                <ion-icon name="md-information-circle"></ion-icon>
+                Status
+                <!-- Alarme -->
+              </button>
+              <button (click)="openDevice(_device, 3)" ion-button color="secondary" icon-left>
+                <ion-icon name="play"></ion-icon>
+                <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
+                Ações
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </div>
+      </div>
+    </ion-list>
+    <!-- FavoritePage!! -->
+    <ion-list *ngIf="this.deviceList.length > 0 && (pageMode === 'AllPages' || pageMode === 'FavoritePage')">
+      <ion-list-header color="primary">
+      Favoritos
+      </ion-list-header>
+      <div *ngFor="let _device of this.deviceList; let i = index">
+        <div *ngFor="let _mod of _device.DB.ModuleList; let ii = index">
+          <ion-item-sliding *ngIf="_mod.Position < 3 && !_device.DB.Desactvated && !_mod.Desactvated && _mod.Favorite">
+            <ion-item (click)="executeDeviceAction(_device, ii)">
+              <!-- <h2>{{ _mod.Name }} /// {{ _mod.Number }}</h2> -->
+              <!-- <ion-avatar item-left>
+                <ion-icon *ngIf="(modOneApiService.reqRunning() || modOneApiService.reqError())" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                <ion-icon *ngIf="this.deviceList[i].Local.Status.out['M'+ ii] && !modOneApiService.reqRunning()" ngClass="turned-on" name="md-bulb"></ion-icon>
+                <ion-icon *ngIf="!this.deviceList[i].Local.Status.out['M'+ ii] && !modOneApiService.reqRunning()" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+              </ion-avatar>
+              <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles"></ion-spinner>
+              <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon> -->
+              <ion-avatar item-left>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='NOK')" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='ON')" ngClass="turned-on" name="md-bulb"></ion-icon>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='OFF')" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+              </ion-avatar>
+              <ion-spinner *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='SENDING')" item-right name ="circles"></ion-spinner>
+              <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='NOK')" item-right name="alert" color="danger"></ion-icon>
+              <h2>{{ _mod.Name }}</h2>
+              <p>{{ _device.DB.Name }}</p>
+            </ion-item>
+            <ion-item-options>
+              <button (click)="openDevice(_device, 8, 'Configurações/Detalhes')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-settings"></ion-icon>
+                <!-- Settings -->
+              </button>
+              <button (click)="openDevice(_device, 7, 'Relógio')" ion-button color="primary" icon-left>
+                <ion-icon name="md-time"></ion-icon>
+                <!-- Settings -->
+              </button>
+              <button (click)="openDevice(_device, 6, 'Sensor de Luz')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-sunny"></ion-icon>
+                <!-- Luz -->
+              </button>
+              <button (click)="openDevice(_device, 5, 'Sensor de Presença')" ion-button color="primary" icon-left>
+                <ion-icon name="md-walk"></ion-icon>
+                <!-- Sensor -->
+              </button>
+              <button (click)="openDevice(_device, 4, 'Alarmes')" ion-button color="secondary" icon-left>
+                <ion-icon name="md-alarm"></ion-icon>
+                <!-- Alarme -->
+              </button>
+              <button (click)="openDevice(_device, 2, 'Status')" ion-button color="primary" icon-left>
+                <ion-icon name="md-information-circle"></ion-icon>
+                <!-- Status -->
+              </button>
+              <button (click)="openDevice(_device, 1, 'Ações')" ion-button color="secondary" icon-left>
+                <ion-icon name="play"></ion-icon>
+                <!-- Ações -->
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+
+          <ion-item-sliding *ngIf="_mod.Position > 2 && !_device.DB.Desactvated && !_mod.Desactvated && _mod.Favorite">
+            <ion-item (click)="setRGB(_device, ii)">
+
+              <ion-avatar item-left>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='NOK')" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='ON')" ngClass="turned-on" name="md-bulb"></ion-icon>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='OFF')" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+              </ion-avatar>
+              <ion-spinner *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='SENDING')" item-right name ="circles"></ion-spinner>
+              <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='NOK')" item-right name="alert" color="danger"></ion-icon>
+              <h2>{{ _mod.Name }}</h2>
+              <p>{{ _device.DB.Name }}</p>
+            </ion-item>
+            <ion-item-options>
+              <button (click)="openDevice(_device, 2)" ion-button color="primary" icon-left>
+                <ion-icon name="md-information-circle"></ion-icon>
+                Status
+                <!-- Alarme -->
+              </button>
+              <button (click)="openDevice(_device, 3)" ion-button color="secondary" icon-left>
+                <ion-icon name="play"></ion-icon>
+                <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
+                Ações
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </div>
+      </div>
+    </ion-list>
+    <!-- RoomListPage!! -->
+    <div *ngIf="this.deviceList.length > 0 && (pageMode === 'AllPages' || pageMode === 'RoomListPage')">
+      <ion-list-header color="primary">
+      Locais da Casa
+      </ion-list-header>
+      <!-- Choose an option: Filetr by Name, filter by Type or Edit Screen: -->
+      <ion-toolbar no-border-top>
+        <ion-segment [(ngModel)]="showRoomScreen">
+          <ion-segment-button value="room_name">
+            Ver Por Nome
+          </ion-segment-button>
+          <ion-segment-button value="room_type">
+            Ver Por Tipo
+          </ion-segment-button>
+          <ion-segment-button value="room_edit">
+            Editar/Criar
+          </ion-segment-button>
+        </ion-segment>
+      </ion-toolbar>
+      <!-- Filter by Name and Type Screen: -->
+      <ion-list *ngIf="(showRoomScreen === 'room_name' || showRoomScreen === 'room_type') && this.deviceList.length > 0 && (pageMode === 'AllPages' || pageMode === 'RoomListPage')">
+
+        <ion-list-header *ngIf="showRoomScreen === 'room_name'">
+        Meus Locais
+        </ion-list-header>
+
+        <ion-list-header *ngIf="showRoomScreen === 'room_type'">
+        Tipos de Locais
+        </ion-list-header>
+
+        <ion-item *ngIf="showRoomScreen === 'room_type'">
+          <ion-label>Filtrar Tipo de Local</ion-label>
+          <ion-select [(ngModel)]="roomTypeSelected" multiple="false" cancelText="Cancelar" okText="Confirmar">
+            <div *ngFor="let _type of getRoomTypeUsedList(); let i = index">
+              <ion-option [value]="_type">{{_type}}</ion-option>
+            </div>
+          </ion-select>
+        </ion-item>
+
+        <ion-item *ngIf="showRoomScreen === 'room_name'">
+          <ion-label>Filtrar Meus Comodos</ion-label>
+          <ion-select [(ngModel)]="roomNameSelected" multiple="false" cancelText="Cancelar" okText="Confirmar">
+            <div *ngFor="let _room of this.userServ.user.RoomList; let i = index">
+              <ion-option [value]="_room.Name">{{_room.Name}}</ion-option>
+            </div>
+          </ion-select>
+        </ion-item>
+
+        <div *ngFor="let _device of this.deviceList; let i = index">
+          <div *ngFor="let _mod of _device.DB.ModuleList; let ii = index">
+            <ion-item-sliding *ngIf="_mod.Position < 3 && !_device.DB.Desactvated && !_mod.Desactvated && (showRoomScreen === 'room_name' && _device.DB.Room === roomNameSelected || showRoomScreen === 'room_type' && filterRoomAndTypeForUser(_device.DB.Room, roomTypeSelected))">
+              <ion-item (click)="executeDeviceAction(_device, ii)">
+                <!-- <h2>{{ _mod.Name }} /// {{ _mod.Number }}</h2> -->
+                <!-- <ion-avatar item-left>
+                  <ion-icon *ngIf="(modOneApiService.reqRunning() || modOneApiService.reqError())" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                  <ion-icon *ngIf="this.deviceList[i].Local.Status.out['M'+ ii] && !modOneApiService.reqRunning()" ngClass="turned-on" name="md-bulb"></ion-icon>
+                  <ion-icon *ngIf="!this.deviceList[i].Local.Status.out['M'+ ii] && !modOneApiService.reqRunning()" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+                </ion-avatar>
+                <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles"></ion-spinner>
+                <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon> -->
+                <ion-avatar item-left>
+                  <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='NOK')" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                  <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='ON')" ngClass="turned-on" name="md-bulb"></ion-icon>
+                  <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='OFF')" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+                </ion-avatar>
+                <ion-spinner *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='SENDING')" item-right name ="circles"></ion-spinner>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='NOK')" item-right name="alert" color="danger"></ion-icon>
+                <h2>{{ _mod.Name }}</h2>
+                <p>{{ _device.DB.Name }}</p>
+              </ion-item>
+              <ion-item-options>
+                <button (click)="openDevice(_device, 8, 'Configurações/Detalhes')" ion-button color="secondary" icon-left>
+                  <ion-icon name="md-settings"></ion-icon>
+                  <!-- Settings -->
+                </button>
+                <button (click)="openDevice(_device, 7, 'Relógio')" ion-button color="primary" icon-left>
+                  <ion-icon name="md-time"></ion-icon>
+                  <!-- Settings -->
+                </button>
+                <button (click)="openDevice(_device, 6, 'Sensor de Luz')" ion-button color="secondary" icon-left>
+                  <ion-icon name="md-sunny"></ion-icon>
+                  <!-- Luz -->
+                </button>
+                <button (click)="openDevice(_device, 5, 'Sensor de Presença')" ion-button color="primary" icon-left>
+                  <ion-icon name="md-walk"></ion-icon>
+                  <!-- Sensor -->
+                </button>
+                <button (click)="openDevice(_device, 4, 'Alarmes')" ion-button color="secondary" icon-left>
+                  <ion-icon name="md-alarm"></ion-icon>
+                  <!-- Alarme -->
+                </button>
+                <button (click)="openDevice(_device, 2, 'Status')" ion-button color="primary" icon-left>
+                  <ion-icon name="md-information-circle"></ion-icon>
+                  <!-- Status -->
+                </button>
+                <button (click)="openDevice(_device, 1, 'Ações')" ion-button color="secondary" icon-left>
+                  <ion-icon name="play"></ion-icon>
+                  <!-- Ações -->
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+
+            <ion-item-sliding *ngIf="_mod.Position > 2 && !_device.DB.Desactvated && !_mod.Desactvated && (showRoomScreen === 'room_name' && _device.DB.Room === roomNameSelected || showRoomScreen === 'room_type' && filterRoomAndTypeForUser(_device.DB.Room, roomTypeSelected))">
+              <ion-item (click)="setRGB(_device, ii)">
+
+                <ion-avatar item-left>
+                  <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='NOK')" ngClass="turned-unknow" name="ios-bulb-outline"></ion-icon>
+                  <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='ON')" ngClass="turned-on" name="md-bulb"></ion-icon>
+                  <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, true)=='OFF')" ngClass="turned-off" name="ios-bulb-outline"></ion-icon>
+                </ion-avatar>
+                <ion-spinner *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='SENDING')" item-right name ="circles"></ion-spinner>
+                <ion-icon *ngIf="(this.modOneApiService.getResumeStatus(_device.DB.Name, ii, false)=='NOK')" item-right name="alert" color="danger"></ion-icon>
+                <h2>{{ _mod.Name }}</h2>
+                <p>{{ _device.DB.Name }}</p>
+              </ion-item>
+              <ion-item-options>
+                <button (click)="openDevice(_device, 2)" ion-button color="primary" icon-left>
+                  <ion-icon name="md-information-circle"></ion-icon>
+                  Status
+                  <!-- Alarme -->
+                </button>
+                <button (click)="openDevice(_device, 3)" ion-button color="secondary" icon-left>
+                  <ion-icon name="play"></ion-icon>
+                  <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
+                  Ações
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+          </div>
+        </div>
+      </ion-list>
+      <!-- Edit Screen -->
+      <ion-list *ngIf="showRoomScreen === 'room_edit' && (pageMode === 'AllPages' || pageMode === 'RoomListPage')">
+        <ion-list-header>
+          Editar/Novo Local
+        </ion-list-header>
+        <!-- <button ion-item (click)="editOrShowList()">
+          Ir para <b>Lista de Locais</b>
+        </button> -->
+        <ion-item>
+          <ion-label>Selecionar Local</ion-label>
+          <ion-select [(ngModel)]="roomSelected" multiple="false" cancelText="Cancelar" okText="Confirmar">
+            <div *ngFor="let _room of this.userServ.user.RoomList; let i = index">
+              <ion-option [disabled]="_room.Name === 'Desconhecido'" (ionSelect)="newRoomName=_room.Name; newRoomTypeName = _room.Type" [value]="_room">{{_room.Name}}</ion-option>
+            </div>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Nome Desejado</ion-label>
+          <ion-input [disabled]="roomSelected.Name === 'Desconhecido'" [(ngModel)]="newRoomName" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Tipo do Local</ion-label>
+          <ion-select [(ngModel)]="newRoomTypeName" multiple="false" cancelText="Cancelar" okText="Confirmar">
+            <div *ngFor="let _type of this.roomTypeList; let i = index">
+              <ion-option (ionSelect)="newRoomTypeName=_type" [value]="_type">{{_type}}</ion-option>
+            </div>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <button [disabled]="roomSelected.Name === 'Desconhecido'" (click)=editRoom() color="light" ion-button block>Salvar</button>
+        </ion-item>
+        <ion-item>
+          <button [disabled]="roomSelected.Name === 'Desconhecido'" (click)=deleteRoom() color="light" ion-button block>Deletar Selecionado</button>
+        </ion-item>
+        <ion-item>
+          <button (click)=newRoom() color="light" ion-button block>Criar Novo</button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>
+
+
+<ion-footer>
+  <ion-item>
+    <ion-label>
+      <ion-icon name="refresh" (click)="refresh()"></ion-icon>
+    </ion-label>
+  </ion-item>
+</ion-footer>

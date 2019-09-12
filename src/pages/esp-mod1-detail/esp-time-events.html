@@ -1,0 +1,41 @@
+<ion-list>
+<ion-list-header color="primary">
+  Alarmes
+  <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+  <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+  <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+</ion-list-header>
+<ion-list *ngFor="let item of data.te; let i = index">
+  <ion-list-header color="title_light">
+    Ação {{i + 1}}
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Ativar</ion-label>
+    <ion-checkbox item-right  [(ngModel)]="item.enb" [checked]="item.enb" disabled="false"></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Ações {{this.modNames[0]}}</ion-label>
+    <ion-select [(ngModel)]="item.cmd.m0" multiple="false" cancelText="Cancelar" okText="Confirmar">
+      <ion-option value="0">Nada Fazer</ion-option>
+      <ion-option value="1">Ligar</ion-option>
+      <ion-option value="2">Desligar</ion-option>
+      <ion-option value="3">Inverter</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Ações {{this.modNames[1]}}</ion-label>
+    <ion-select [(ngModel)]="item.cmd.m1" multiple="false" cancelText="Cancelar" okText="Confirmar">
+      <ion-option value="0">Nada Fazer</ion-option>
+      <ion-option value="1">Ligar</ion-option>
+      <ion-option value="2">Desligar</ion-option>
+      <ion-option value="3">Inverter</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <component-date-picker (onTimeChanged)="timeChanged($event,i)" [(date)]="date[i]" multipleWeekDays="true" hideSeconds="true" hideDate="true"></component-date-picker>
+  <ion-item>
+    <button (click)=teChanged(i) color="light" ion-button block>Salvar</button>
+  </ion-item>
+  </ion-list>
+</ion-list>

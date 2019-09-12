@@ -1,0 +1,6 @@
+page-developer {
+  .console-log {
+    color: map-get($colors, primary);//#00008B;
+    background-color: map-get($colors, secondary);
+  }
+}

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Adicionar Novo Dispositivo</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <img src="assets/img/pages/add-device/find.jpg"/>
+  <div >
+    <button ion-button block (click)="this.takePicture()">Scanear Código</button>
+  </div>
+  <div >
+    <button ion-button block (click)="this.typeNumber()">Digitar Manualmente</button>
+  </div>
+  <!-- <div >
+    <button ion-button block (click)="this.test()">Teste</button>
+  </div> -->
+  <!-- <b>Date: </b> {{this.espGeneral.DeviceType.number}}
+  <div >
+    <button ion-button block (click)="this.getIp()">Get IP!</button>
+  </div>
+  <b>IP: </b> {{this.espGeneral.ip.sta_ip}} -->
+</ion-content>

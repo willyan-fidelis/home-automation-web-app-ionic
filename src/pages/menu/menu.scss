@@ -1,0 +1,24 @@
+page-menu, page-menu-popover {
+  .menu-color {
+    color: map-get($colors, secondary);//#00008B;
+  }
+  .menu-icon {
+    color: map-get($colors, menu_icon);//#00008B;
+  }
+  .menu-color-highlight {
+    color: map-get($colors, primary);//#00008B;
+  }
+  .menu-color-developer {
+    color: map-get($colorsPallet, DarkSlateGray);//#00008B;
+  }
+  .title-color {
+    color: map-get($colors, primary);//#00008B;
+  }
+  // ion-icon {
+  //   color: #4682B4;
+  // }
+  .menu-color-highlight-small {
+    font-size: 1.2em;
+    color: map-get($colors, primary);
+  }
+}

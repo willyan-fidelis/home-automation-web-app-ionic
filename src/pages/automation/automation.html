@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Automação</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="md-information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- <ion-list>
+    <ion-list-header>Eventos</ion-list-header>
+    <div *ngFor="let _elem of this.logList; let i = index">
+      <ion-item (click)="openModal({element: _elem})">
+        <ion-avatar style="font-size: 3rem; color: red" item-left>
+          <ion-icon color="primary" [name]="_elem.icon"></ion-icon>
+        </ion-avatar>
+        <h2>{{_elem.title}}</h2>
+        <p>{{_elem.description}}</p>
+        <ion-note item-right>{{_elem.date.getDate()}}/{{_elem.date.getMonth() + 1}}/{{_elem.date.getFullYear()}}</ion-note>
+        <ion-note item-right>{{_elem.date.getHours()}}:{{_elem.date.getMinutes()}}</ion-note>
+      </ion-item>
+    </div>
+  </ion-list> -->
+
+  <ion-list>
+    <ion-list-header color="primary">Lista</ion-list-header>
+    <div *ngFor="let elem of this.alarmList; let i = index">
+      <ion-item-sliding *ngIf="true">
+        <ion-item (click)="playScene(i)">
+          <ion-avatar item-left>
+            <ion-icon *ngIf="true"  ngClass="big-size" name="md-paper-plane"></ion-icon>
+          </ion-avatar>
+          <ion-spinner *ngIf="false" item-right name ="circles"></ion-spinner>
+          <ion-icon *ngIf="false" item-right name="alert" color="danger"></ion-icon>
+          <h2>{{ elem.Name }}</h2>
+          <p>Cena</p>
+        </ion-item>
+        <ion-item-options>
+          <button (click)="deleteScene(i)" ion-button color="primary" icon-left>
+            <ion-icon name="md-trash"></ion-icon>
+            Exluir
+          </button>
+          <button (click)="editScene(elem, i)" ion-button color="secondary" icon-left>
+            <ion-icon name="md-create"></ion-icon>
+            Editar
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </div>
+    <ion-fab right bottom>
+      <button (click)="addScene()" ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+  </ion-list>
+</ion-content>

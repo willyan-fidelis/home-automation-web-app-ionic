@@ -1,0 +1,13 @@
+<ion-list>
+  <ion-list-header color="primary">
+    Data e hora
+    <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+    <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+    <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+  </ion-list-header>
+
+  <component-date-picker (onTimeChanged)="tmChanged($event)" [(date)]="date"></component-date-picker>
+  <ion-item>
+    <button (click)=timeChanged() color="light" ion-button block>Salvar</button>
+  </ion-item>
+</ion-list>

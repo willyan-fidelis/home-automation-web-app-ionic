@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Detalhes
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <!-- <span ion-text color="primary" showWhen="ios">Cancel</span> -->
+        <!-- <ion-icon name="md-close" showWhen="android, windows"></ion-icon> -->
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+        <ion-item>
+          <ion-avatar style="font-size: 3rem; color: red" item-left>
+            <ion-icon color="primary" [name]="element.icon"></ion-icon>
+          </ion-avatar>
+          <h2>{{element.title}}</h2>
+          <p>{{element.description}}</p>
+        </ion-item>
+        <ion-item>
+          Dia
+          <ion-note item-right>
+            {{element.date.getDate()}}/{{element.date.getMonth() + 1}}/{{element.date.getFullYear()}}
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          Horário
+          <ion-note item-right>
+            {{element.date.getHours()}}:{{element.date.getMinutes()}}
+          </ion-note>
+        </ion-item>
+    </ion-list>
+    <ion-card>
+      <ion-card-header color="secondary">
+        Detalhes
+      </ion-card-header>
+      <ion-card-content color="primary">
+        {{element.detail[0]}}
+      </ion-card-content>
+    </ion-card>
+</ion-content>

@@ -1,0 +1,23 @@
+page-esp-mod1-list {
+  ion-icon.big-size {
+    font-size: 5rem;
+    color: CadetBlue;
+  }
+  ion-icon.turned-on {
+    font-size: 5rem;
+    color: #FFD700;
+  }
+  ion-icon.turned-off {
+    font-size: 5rem;
+    color: CadetBlue;
+  }
+  ion-icon.turned-unknow {
+    font-size: 5rem;
+    color: gray;
+  }
+
+  p {
+    color: red;
+    text-align: center;
+  }
+}

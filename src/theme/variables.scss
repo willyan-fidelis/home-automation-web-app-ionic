@@ -1,0 +1,197 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+// Font path is used to include ionicons,
+// roboto, and noto sans fonts
+$font-path: "../assets/fonts";
+
+
+// The app direction is used to include
+// rtl styles in your app. For more info, please see:
+// http://ionicframework.com/docs/theming/rtl-support/
+$app-direction: ltr;
+
+
+@import "ionic.globals";
+
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/theming/overriding-ionic-variables/
+
+
+// ------------------- style make by willyan fidelis(wsf) -------------------
+//See more: http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+//Show item list icon(arrow - See: https://ionicframework.com/docs/v2/api/components/item/Item/):
+// $item-md-detail-push-show: true;
+// $item-wp-detail-push-show: true;
+// //Toolbar title:
+// $toolbar-md-title-text-color: #FF4500; //primary
+// $toolbar-wp-title-text-color: #FF4500; //primary
+// //$toolbar-text-color: #000; //primary
+// $toolbar-background: #6495ED; //secondary
+//
+// $button-md-text-color: #00008B; //secondary
+// $button-wp-text-color: #00008B; //secondary
+// $button-ios-text-color: #00008B; //secondary
+// $list-text-color: #00008B; //secondary
+//
+// $background-color: #4682B4; //secondary
+// ------------------- style make by willyan fidelis(wsf) -------------------
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+/*
+$colors: (
+  primary:    #488aff,
+  secondary:  #32db64,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222
+);
+*/
+/*
+$colors: (
+  primary:    #FF4500,//#387ef5,
+  secondary:  #00008B,//#32db64,
+  danger:     #f53d3d,
+  light:      #87CEFA,//#f4f4f4,
+  dark:       #222,
+  //New Colors(see http://www.w3schools.com/colors/colors_names.asp):
+  menu:       #191970,
+  turned-on:  #FFD700,
+  turned-off: #5F9EA0 ,
+  turned-unknow: #808080,
+  primary2:      	#1E90FF,
+  light2:     #87CEFA,//#D3D3D3,
+  title_light:     #87CEFA,//#D3D3D3,
+  rgb_red:    #B22222,
+  rgb_green:  #228B22,
+  rgb_blue:   #0000CD
+);
+*/
+$colorsPallet: (
+  //Pure color:
+  //Black:
+  black: #202020,
+  //Gray:
+  DarkSlateGray: 	#2F4F4F,
+  gray: #C0C0C0,
+  //Red:
+  red: #FF0000 ,
+  darkRed: #8B0000,
+  Crimson: 	#DC143C,
+  //Blue:
+  Blue: 	#0000FF,
+  DarkBlue: 	#00008B,
+  DarkCyan: 	#008B8B,
+  MidnightBlue: 	#191970,
+  SteelBlue: 	#4682B4,
+  //Green:
+  Teal: 	#008080,
+);
+
+$colors: (
+  //Default colors:
+  primary:    map-get($colorsPallet, darkRed),//#FF4500,//#387ef5,
+  secondary:  map-get($colorsPallet, DarkCyan),//#00008B,//#32db64,
+  danger:     #f53d3d,
+  light:      #87CEFA,//#f4f4f4,
+  dark:       #222,
+  //background:
+  background: map-get($colorsPallet, black),
+  background_menu: map-get($colorsPallet, black),
+  background_toolbar: map-get($colorsPallet, SteelBlue),
+  //Text color:
+  free_text: map-get($colorsPallet, gray),
+  btn_text: map-get($colorsPallet, gray),
+  list_text: map-get($colorsPallet, gray),
+  //Title:
+  title_text: map-get($colorsPallet, gray),
+  //Menu:
+  menu_icon: map-get($colorsPallet, gray),
+  //Badge
+  Badge: map-get($colorsPallet, darkRed),
+
+  //New Colors(see http://www.w3schools.com/colors/colors_names.asp):
+  menu:       #191970,
+  turned-on:  #FFD700,
+  turned-off: #5F9EA0 ,
+  turned-unknow: #808080,
+  primary2:      	#1E90FF,
+  light2:     #87CEFA,//#D3D3D3,
+  title_light:     #87CEFA,//#D3D3D3,
+  rgb_red:    #B22222,
+  rgb_green:  #228B22,
+  rgb_blue:   #0000CD
+);
+// App iOS Variables
+// --------------------------------------------------
+// ------------------- style make by willyan fidelis(wsf) -------------------
+//See more: http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+//Show item list icon(arrow - See: https://ionicframework.com/docs/v2/api/components/item/Item/):
+$item-md-detail-push-show: true;
+$item-wp-detail-push-show: true;
+//Toolbar title:
+$toolbar-md-title-text-color: map-get($colors, title_text); //#FF4500; //primary
+$toolbar-wp-title-text-color: map-get($colors, title_text); //#FF4500; //primary
+//$toolbar-text-color: #000; //primary
+$toolbar-background: map-get($colors, background_toolbar); //#6495ED; //secondary
+
+$button-md-text-color: map-get($colors, btn_text); //#00008B; //secondary
+$button-wp-text-color: map-get($colors, btn_text); //#00008B; //secondary
+$button-ios-text-color: map-get($colors, btn_text); //#00008B; //secondary
+$list-text-color: map-get($colors, list_text); //#00008B; //secondary
+
+$background-color: map-get($colors, background); //secondary
+// ------------------- style make by willyan fidelis(wsf) -------------------
+// iOS only Sass variables can go here
+
+
+
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+
+
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/ionicons/
+
+@import "ionic.ionicons";
+
+
+// Fonts
+// --------------------------------------------------
+
+@import "roboto";
+@import "noto-sans";

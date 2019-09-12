@@ -1,0 +1,184 @@
+<div *ngIf="true">
+  <div *ngIf="showMainCmds">
+    <ion-list>
+      <ion-list-header color="primary">
+        Comandos Principais
+        <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+        <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+        <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+      </ion-list-header>
+      <ion-list *ngFor="let _item of [0,1]; let i = index">
+        <ion-list-header color="title_light">
+          {{this.item.DB.ModuleList[i].Name}}
+          <ion-icon *ngIf="(item.temp.lastModRequest[i] === -1 || item.temp.lastModRequest[i] === -2)" item-right color="turned-unknow" name="ios-bulb-outline"></ion-icon>
+          <ion-icon *ngIf="this.item.Local.Status.out['M'+ i] && !(item.temp.lastModRequest[i] === -1)" item-right color="turned-on" name="md-bulb"></ion-icon>
+          <ion-icon *ngIf="!this.item.Local.Status.out['M'+ i] && !(item.temp.lastModRequest[i] === -1)" item-right color="turned-off" name="ios-bulb-outline"></ion-icon>
+        </ion-list-header>
+        <button ion-item>
+          <ion-icon (click)="turn(1,i)" name="md-play" item-right></ion-icon>
+          Ligar
+        </button>
+
+        <button ion-item>
+          <ion-icon (click)="turn(2,i)" name="md-pause" item-right></ion-icon>
+          Desligar
+        </button>
+
+        <button ion-item>
+          <ion-icon (click)="turn(3,i)" name="md-infinite" item-right></ion-icon>
+          Inverter
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header color="title_light">
+          Comandos do Disporitivo
+        </ion-list-header>
+
+        <button ion-item>
+          <ion-icon (click)="cmdReset()" name="md-infinite" item-right></ion-icon>
+          Reiniciar
+        </button>
+
+        <button ion-item>
+          <ion-icon (click)="cmdFind()" name="md-infinite" item-right></ion-icon>
+          Procurar/Restabelecer conexão
+        </button>
+      </ion-list>
+
+    </ion-list>
+  </div>
+
+  <div *ngIf="showRGBCmds">
+    <ion-list>
+      <ion-list-header color="primary">
+        Comandos Analógicos
+        <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+        <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+        <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+      </ion-list-header>
+      <ion-item>
+        <ion-range color="rgb_red" pin="true" debounce="1500" (ionChange)="setRGB(0,this.item.Local.Status.rgb[0])" disabled="false" min="0" max="100" step="1" [(ngModel)]="this.item.Local.Status.rgb[0]">
+          <ion-icon  color="rgb_red"small range-left name="sunny"></ion-icon>
+          <ion-icon color="rgb_red" range-right name="sunny"></ion-icon>
+        </ion-range>
+        <ion-badge item-right>{{this.item.DB.ModuleList[2].Name}}</ion-badge>
+      </ion-item>
+      <ion-item>
+        <ion-range color="rgb_green" pin="true" debounce="1500" (ionChange)="setRGB(1,this.item.Local.Status.rgb[1])" disabled="false" min="0" max="100" step="1" [(ngModel)]="this.item.Local.Status.rgb[1]">
+          <ion-icon color="rgb_green" small range-left name="sunny"></ion-icon>
+          <ion-icon color="rgb_green" range-right name="sunny"></ion-icon>
+        </ion-range>
+        <ion-badge item-right>{{this.item.DB.ModuleList[3].Name}}</ion-badge>
+      </ion-item>
+      <ion-item>
+        <ion-range color="rgb_blue" pin="true" debounce="1500" (ionChange)="setRGB(2,this.item.Local.Status.rgb[2])" disabled="false" min="0" max="100" step="1" [(ngModel)]="this.item.Local.Status.rgb[2]">
+          <ion-icon color="rgb_blue" small range-left name="sunny"></ion-icon>
+          <ion-icon color="rgb_blue" range-right name="sunny"></ion-icon>
+        </ion-range>
+        <ion-badge item-right>{{this.item.DB.ModuleList[4].Name}}</ion-badge>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="showStatus">
+    <ion-list>
+      <ion-list-header color="primary">
+        Sensor de Luminosidade
+        <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+        <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+        <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+      </ion-list-header>
+      <ion-item>
+        <ion-range disabled="true" min="0" max="65535" step="2" [(ngModel)]="this.item.Local.Status.Light">
+          <ion-icon small range-left name="sunny"></ion-icon>
+          <ion-icon range-right name="sunny"></ion-icon>
+        </ion-range>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Valor Lido</ion-label>
+        <ion-input disabled="true" [(ngModel)]="this.item.Local.Status.Light" type="text"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header color="primary">
+        Sensores digitais
+        <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+        <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+        <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Sensor de presença</ion-label>
+        <ion-checkbox *ngIf="this.item.Local.Status.Sensor == 1" item-right disabled="true" checked="true"></ion-checkbox>
+        <ion-checkbox *ngIf="this.item.Local.Status.Sensor == 0" item-right disabled="true" checked="false"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Entrada 1 - {{this.item.DB.ModuleList[0].Name}}</ion-label>
+        <ion-checkbox *ngIf="this.item.Local.Status.InputM0 == 1" item-right disabled="true" checked="true"></ion-checkbox>
+        <ion-checkbox *ngIf="this.item.Local.Status.InputM0 == 0" item-right disabled="true" checked="false"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Entrada 2 - {{this.item.DB.ModuleList[1].Name}}</ion-label>
+         <ion-checkbox *ngIf="this.item.Local.Status.InputM1 == 1" item-right disabled="true" checked="true"></ion-checkbox>
+         <ion-checkbox *ngIf="this.item.Local.Status.InputM1 == 0" item-right disabled="true" checked="false"></ion-checkbox>
+         <!-- TODO/REVIEW this 'ion-checkbox' code. See these links: -->
+         <!-- https://forum.ionicframework.com/t/expression-has-changed-after-it-was-checked-previous-value/57981/3 -->
+         <!-- http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html -->
+         <!-- http://blog.thoughtram.io/angular/2015/05/18/dependency-injection-in-angular-2.html -->
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header color="primary">
+        Saidas Digitais
+        <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+        <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+        <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>{{this.item.DB.ModuleList[0].Name}}</ion-label>
+        <ion-checkbox *ngIf="this.item.Local.Status.out.M0 == 1" item-right disabled="true" checked="true"></ion-checkbox>
+        <ion-checkbox *ngIf="this.item.Local.Status.out.M0 == 0" item-right disabled="true" checked="false"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>{{this.item.DB.ModuleList[1].Name}}</ion-label>
+         <ion-checkbox *ngIf="this.item.Local.Status.out.M1 == 1" item-right disabled="true" checked="true"></ion-checkbox>
+         <ion-checkbox *ngIf="this.item.Local.Status.out.M1 == 0" item-right disabled="true" checked="false"></ion-checkbox>
+         <!-- TODO/REVIEW this 'ion-checkbox' code. See these links: -->
+         <!-- https://forum.ionicframework.com/t/expression-has-changed-after-it-was-checked-previous-value/57981/3 -->
+         <!-- http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html -->
+         <!-- http://blog.thoughtram.io/angular/2015/05/18/dependency-injection-in-angular-2.html -->
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header color="primary">
+        Saidas Analógicas
+        <ion-spinner *ngIf="modOneApiService.reqRunning()" item-right name ="circles" color="light"></ion-spinner>
+        <ion-icon *ngIf="modOneApiService.reqError()" item-right name="alert" color="danger"></ion-icon>
+        <ion-icon (click)="refreshData()" name="md-refresh" item-right></ion-icon>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Saida 1</ion-label>
+        <ion-input disabled="true" [(ngModel)]="this.item.Local.Status.rgb[0]" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Saida 2</ion-label>
+        <ion-input disabled="true" [(ngModel)]="this.item.Local.Status.rgb[1]" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Saida 3</ion-label>
+        <ion-input disabled="true" [(ngModel)]="this.item.Local.Status.rgb[2]" type="text"></ion-input>
+      </ion-item>
+    </ion-list>
+  </div>
+</div>

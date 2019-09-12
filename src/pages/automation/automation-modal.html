@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title *ngIf="this.createMode == true">Novo</ion-title>
+    <ion-title *ngIf="this.createMode == false">Editar</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-avatar style="font-size: 3rem; color: red" item-left>
+          <ion-icon color="primary" name="md-paper-plane"></ion-icon>
+        </ion-avatar>
+        <h2>Cena</h2>
+        <p>{{this.element.Name}}</p>
+      </ion-item>
+      <!-- <ion-item>
+        Dia
+        <ion-note item-right>
+          yyy
+        </ion-note>
+      </ion-item>
+      <ion-item>
+        Horário
+        <ion-note item-right>
+          xxx
+        </ion-note>
+      </ion-item> -->
+      <ion-item>
+        <ion-label>Nome</ion-label>
+        <ion-input placeholder="Nome da Cena" [(ngModel)]="this.element.Name" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Habilitado</ion-label>
+        <ion-checkbox item-right [(ngModel)]="this.element.Status.StEnable"  disabled="false"></ion-checkbox>
+      </ion-item>
+
+
+      <ion-list *ngIf="this.createMode === false">
+        <ion-list-header color="primary">Criar/Excluir Disparos</ion-list-header>
+        <ion-item>
+          <ion-label>Escolher Tipo de Evento</ion-label>
+          <ion-select  [(ngModel)]="this.triggerType" multiple="false" cancelText="Cancelar" okText="Confirmar">
+            <ion-option [value]="this.triggerTypes.NONE">Nenhum</ion-option>
+            <ion-option [value]="this.triggerTypes.DeviceObj">Dispositivo</ion-option>
+            <ion-option [value]="this.triggerTypes.LocalEvent">Por Local</ion-option>
+            <ion-option [value]="this.triggerTypes.NFCCardEvent">Cartão NFC</ion-option>
+            <ion-option [value]="this.triggerTypes.TimeDate">Data/Hora</ion-option>
+            <ion-option [value]="this.triggerTypes.TimeInterval">Intervalo de Tempo</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item *ngIf="this.triggerType === this.triggerTypes.DeviceObj">
+          <ion-label>Escolher Dispositivo para Monitorar</ion-label>
+          <ion-select  [(ngModel)]="this.trigger.DeviceObj.DeviceName" multiple="false" cancelText="Cancelar" okText="Confirmar">
+            <div *ngFor="let elem of this.deviceNameList; let i = index">
+              <ion-option [value]="elem">{{elem}}</ion-option>
+            </div>
+          </ion-select>
+        </ion-item>
+        <ion-item *ngIf="this.triggerType === this.triggerTypes.DeviceObj">
+          <ion-label>Escolher Eventos para Monitorar</ion-label>
+          <ion-select  [(ngModel)]="this.trigger.DeviceObj.EventCode" multiple="false" cancelText="Cancelar" okText="Confirmar">
+            <div *ngFor="let elem of this.devOnelogList; let i = index">
+              <ion-option [value]="elem.code">{{elem.description}}</ion-option>
+            </div>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <button (click)=addTrigger() color="light" ion-button block>Adicionar Disparo</button>
+        </ion-item>
+        <ion-list>
+          <ion-list-header color="primary">Lists de Disparos</ion-list-header>
+          <div *ngFor="let elem of this.element.TriggerObjList; let i = index">
+            <ion-item-sliding *ngIf="true">
+              <ion-item (click)="playScene(i)">
+                <ion-avatar item-left>
+                  <ion-icon *ngIf="true"  ngClass="big-size" name="md-swap"></ion-icon>
+                </ion-avatar>
+                <h2>{{ elem.DeviceObj.DeviceName }}</h2>
+                <p>{{ this.getLogDescriptionByCode(elem.DeviceObj.EventCode) }}</p>
+              </ion-item>
+              <ion-item-options>
+                <button (click)="deleteTrigger(i)" ion-button color="primary" icon-left>
+                  <ion-icon name="md-trash"></ion-icon>
+                  Exluir
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+          </div>
+        </ion-list>
+      </ion-list>
+
+
+      <ion-item>
+        <button *ngIf="this.createMode === true" (click)=addScene() color="light" ion-button block>Adicionar</button>
+      </ion-item>
+      <ion-item>
+        <button *ngIf="this.createMode === false" (click)=editScene() color="light" ion-button block>Salvar</button>
+      </ion-item>
+    </ion-list>
+
+
+
+
+
+    <ion-card>
+      <ion-card-header color="secondary">
+        Detalhes
+      </ion-card-header>
+      <ion-card-content color="primary">
+        {{this.element.Name}}
+      </ion-card-content>
+    </ion-card>
+</ion-content>

@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Desenvolvedor</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-list-header color="primary">
+      Escolha a View de Desenvolvedor
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Escolher Tela</ion-label>
+      <ion-select [(ngModel)]="this.screen" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <ion-option  *ngIf="true" value="NONE">Nenhuma</ion-option>
+        <ion-option  *ngIf="true" value="CONSOLE_LOG">Console Log</ion-option>
+        <ion-option  *ngIf="true" value="SERVER">Servidor</ion-option>
+        <ion-option  *ngIf="true" value="DEV_NUMBER">Criar e enviar Dev. Number</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="this.screen === 'CONSOLE_LOG'">
+    <ion-item-group>
+      <ion-item-divider color="light">Opções do Logger</ion-item-divider>
+      <ion-item>
+        <ion-label>Habilitar</ion-label>
+        <ion-toggle (ionChange)='toggleOnOffLogger()' [ngModel]="isLoggerEnable()"></ion-toggle>
+      </ion-item>
+      <button ion-item>
+        <ion-icon (click)="clearLogger()" name="md-infinite" item-right></ion-icon>
+        Limpar Histórico
+      </button>
+      <ion-item>
+        <ion-label>Escolher o que deseja Loggar</ion-label>
+        <ion-select [(ngModel)]="this.logList" (ionChange)="exposedLogger()" multiple="true" cancelText="Cancelar" okText="Confirmar">
+          <div *ngFor="let obj of getTypeUsedList(); let i = index">
+            <ion-option (ionSelect)="this.selectedLogger(obj)">{{obj}}</ion-option>
+          </div>
+        </ion-select>
+      </ion-item>
+    </ion-item-group>
+    <ion-card ngClass='console-log'>
+      <ion-card-header>
+        Console
+      </ion-card-header>
+      <ion-card-content>
+        <!-- {{getLoggerText()}} -->
+        <p [innerHTML]="getLoggerText()"></p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+  <div *ngIf="this.screen === 'SERVER'">
+    <ion-list>
+      <ion-list-header color="primary">
+        Opções do Servidor
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Endereço do Servidor</ion-label>
+        <ion-input [(ngModel)]="this.configServiceObj.server.URL" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Página de Teste</ion-label>
+        <ion-input [(ngModel)]="this.configServiceObj.server.URLTest" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <button (click)=save() color="light" ion-button block>Salvar</button>
+      </ion-item>
+      <ion-item>
+        <button (click)=restore() color="light" ion-button block>Descartar</button>
+      </ion-item>
+      <ion-item>
+      <button (click)=default() color="light" ion-button block>Voltar para Padrão de Fabrica</button>
+      </ion-item>
+    </ion-list>
+
+    <ion-item>
+    <button (click)=testServer() color="light" ion-button block>Testar Servidor</button>
+    </ion-item>
+    <ion-card ngClass='console-log'>
+      <ion-card-header>
+        HTML Viwer
+      </ion-card-header>
+      <ion-card-content>
+        <p [innerHTML]="this.serverTestText"></p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

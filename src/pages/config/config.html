@@ -1,0 +1,212 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Configuração Do Aplicativo</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding *ngIf="this.gotConfigServiceObj === true">
+  <!-- <br/><br/><br/> -->
+  <ion-list>
+    <ion-list-header color="primary">
+      Configuração Comunicação
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Escolha o Tipo da Comunicação</ion-label>
+      <ion-select [(ngModel)]="this.configServiceObj.connType" multiple="false" cancelText="Cancelar" okText="Confirmar" (ionChange)="this.setComType()">
+        <ion-option  *ngIf="true" value="NONE">NONE</ion-option>
+        <ion-option  *ngIf="true" value="USER_APP.MQTT_DEV">USER_APP.MQTT_DEV</ion-option>
+        <ion-option  *ngIf="true" value="USER_APP.DIRECT_DEV">USER_APP.DIRECT_DEV</ion-option>
+        <ion-option  *ngIf="false" value="USER_APP.CENTRAL_MQTT">USER_APP.CENTRAL_MQTT</ion-option>
+        <ion-option  *ngIf="false" value="USER_APP.CENTRAL_SMS">USER_APP.CENTRAL_SMS</ion-option>
+        <ion-option  *ngIf="false" value="USER_APP.CENTRAL_DEV">USER_APP.CENTRAL_DEV</ion-option>
+        <ion-option  *ngIf="false" value="CENTRAL_APP.DIRECT_DEV">CENTRAL_APP.DIRECT_DEV</ion-option>
+        <ion-option  *ngIf="false" value="CENTRAL_APP.MQTT_DEV">CENTRAL_APP.MQTT_DEV</ion-option>
+        <ion-option  *ngIf="false" value="CENTRAL_APP._CENTRAL_DEV">CENTRAL_APP._CENTRAL_DEV</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header color="primary">
+      Editar Lista de Servidores MQTT Disponíveis
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Lista de Servidores MQTT:</ion-label>
+      <ion-select  [(ngModel)]="this.selectedMQTT" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let _server of this.configServiceObj.MQTTPreConfigList; let i = index">
+          <ion-option [value]="_server">{{_server.MQTTHost}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hospedeiro</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTHost" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Comentario</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.Comment" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Porta</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTPort" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Porta WebSocket</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTWSPort" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Seguraná SSL</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTSSL" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Caminho</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTPath" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Usuário</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTUser" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Senha Usuário</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTUserPwd" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Clear Session</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTClearS" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Qualidade do Serviço(QoS)</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.selectedMQTT.MQTTQoS" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Tipo/ID</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.selectedMQTT.MQTTType" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <button (click)="save()" color="light" ion-button block>Salvar</button>
+    </ion-item>
+    <ion-item>
+      <button (click)="defineAsAPPMQTT()" color="light" ion-button block>Definir Esse Como Servidor MQTT do Aplicativo</button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header color="primary">
+      Servidor MQTT do Aplicativo
+    </ion-list-header>
+    <!-- <ion-item>
+      <ion-label>Escolha um Servidor</ion-label>
+      <ion-select [(ngModel)]="this.configServiceObj.appMQTT.MQTTHost" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let _server of this.configServiceObj.MQTTPreConfigList; let i = index">
+          <ion-option [value]="_server.MQTTHost">{{_server.MQTTHost}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item> -->
+    <ion-item>
+      <ion-label>Hospedeiro</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.configServiceObj.appMQTT.MQTTHost" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Tipo/ID</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.configServiceObj.appMQTT.MQTTType" type="text"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header color="primary">
+      ID do Seu Aplicativo
+    </ion-list-header>
+    <ion-item>
+      <ion-label>ID do APP</ion-label>
+      <ion-input disabled="false" [(ngModel)]="this.configServiceObj.appID" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <button (click)="save()" color="light" ion-button block>Salvar</button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="true">
+    <ion-list-header color="primary">
+      Editar/Novo Celular
+    </ion-list-header>
+    <!-- <button ion-item (click)="editOrShowList()">
+      Ir para <b>Lista de Locais</b>
+    </button> -->
+    <ion-item>
+      <ion-label>Selecionar Nome do Celular</ion-label>
+      <ion-select (ionChange)="exposedPhone()" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let obj of this.configServiceObj.appList; let i = index">
+          <ion-option (ionSelect)="this.selectedPhone(obj,i)">{{obj.name}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Nome</ion-label>
+      <ion-input [(ngModel)]="this.phoneExposed.name" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Número</ion-label>
+      <ion-input [(ngModel)]="this.phoneExposed.phone" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Habilitado</ion-label>
+      <ion-checkbox item-right [(ngModel)]="this.phoneExposed.enabled"  disabled="false"></ion-checkbox>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Escolher MQTT do Celular:</ion-label>
+      <ion-select  [(ngModel)]="this.selectedMQTTAppList" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <div *ngFor="let _server of this.configServiceObj.MQTTPreConfigList; let i = index">
+          <ion-option (ionSelect)="this.phoneExposed.MQTT=_server" [value]="_server">{{_server.MQTTHost}}</ion-option>
+        </div>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hospedeiro</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.phoneExposed.MQTT.MQTTHost" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Tipo/ID</ion-label>
+      <ion-input disabled="true" [(ngModel)]="this.phoneExposed.MQTT.MQTTType" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Cumunição com o Celular</ion-label>
+      <ion-select  [(ngModel)]="this.selectedMQTTAppComunList" multiple="false" cancelText="Cancelar" okText="Confirmar">
+        <ion-option [value]="appComunEnun.NONE">Nenhuma</ion-option>
+        <ion-option [value]="appComunEnun.SMS">SMS</ion-option>
+        <ion-option [value]="appComunEnun.MQTT">MQTT Server</ion-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item>
+      <button (click)=editPhone() color="light" ion-button block>Salvar</button>
+    </ion-item>
+    <ion-item>
+      <button (click)=deletePhone() color="light" ion-button block>Deletar Selecionado</button>
+    </ion-item>
+    <ion-item>
+      <button (click)=newPhone() color="light" ion-button block>Criar Novo</button>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-list *ngIf="true">
+    <ion-list-header color="primary">
+      Voltar Para Configuraçòes de Iniciais
+    </ion-list-header>
+    <ion-item>
+      <button (click)=default() color="light" ion-button block>Restaurar</button>
+    </ion-item>
+  </ion-list>
+
+
+</ion-content>

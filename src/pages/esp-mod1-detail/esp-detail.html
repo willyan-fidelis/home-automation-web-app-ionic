@@ -1,0 +1,99 @@
+<ion-list>
+  <ion-list-header color="primary">
+    Detalhes
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Nome</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.Name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Local</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.Room" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Numero</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.Number" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Desativado</ion-label>
+    <ion-checkbox item-right [(ngModel)]="this.item.DB.Desactvated" [checked]="this.item.DB.Desactvated" disabled="true"></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>HomeSense - Nome</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.APConfig.name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>HomeSense - Senha</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.APConfig.pwd" type="password"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Nome Rede Wifi</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.STAConfig.name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Senha Rede Wifi</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.STAConfig.pwd" type="password"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>IP Rede Wifi</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.Local.ip.sta_ip" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Tipo do Modulo</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.Type.Type" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Versão de Software</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.Type.SwVersion" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Versão de Hardware</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.Type.HwVersion" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 1 - Nome</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.ModuleList[0].Name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 1 - Favorito</ion-label>
+    <ion-checkbox item-right [(ngModel)]="this.item.DB.ModuleList[0].Favorite" [checked]="this.item.DB.ModuleList[0].Favorite" disabled="true"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 2 - Nome</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.ModuleList[1].Name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 2 - Favorito</ion-label>
+    <ion-checkbox item-right [(ngModel)]="this.item.DB.ModuleList[1].Favorite" [checked]="this.item.DB.ModuleList[1].Favorite" disabled="true"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 3 - Nome</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.ModuleList[2].Name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 3 - Favorito</ion-label>
+    <ion-checkbox item-right [(ngModel)]="this.item.DB.ModuleList[2].Favorite" [checked]="this.item.DB.ModuleList[2].Favorite" disabled="true"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 4 - Nome</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.ModuleList[3].Name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 4 - Favorito</ion-label>
+    <ion-checkbox item-right [(ngModel)]="this.item.DB.ModuleList[3].Favorite" [checked]="this.item.DB.ModuleList[3].Favorite" disabled="true"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 5 - Nome</ion-label>
+    <ion-input disabled="true" [(ngModel)]="this.item.DB.ModuleList[4].Name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Módulo 5 - Favorito</ion-label>
+    <ion-checkbox item-right [(ngModel)]="this.item.DB.ModuleList[4].Favorite" [checked]="this.item.DB.ModuleList[4].Favorite" disabled="true"></ion-checkbox>
+  </ion-item>
+  <!--
+  <ion-item>
+    <button color="light" ion-button block>Salvar</button>
+  </ion-item>
+  -->
+</ion-list>

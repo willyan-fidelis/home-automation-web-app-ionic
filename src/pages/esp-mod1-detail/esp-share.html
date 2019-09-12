@@ -1,0 +1,57 @@
+<!-- Choose an option: Filetr by Name, filter by Type or Edit Screen: -->
+<ion-toolbar no-border-top>
+  <ion-segment [(ngModel)]="showScreen">
+    <ion-segment-button value="share">
+      Compartilhar
+    </ion-segment-button>
+    <ion-segment-button value="unshare">
+      Apagar Compartilhamento
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+
+<ion-list *ngIf="showScreen == 'share'">
+  <ion-list-header color="primary">
+    Opções de Compartilhamento
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Nome do Dspositivo</ion-label>
+    <ion-input disabled="true" [(ngModel)]="item.DB.Name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Email</ion-label>
+    <ion-input disabled="false" placeholder="Email para compartilhamentar dispositivo" [(ngModel)]="this.email" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Nivel do Usuário</ion-label>
+    <ion-select [(ngModel)]="this.rights" multiple="false" cancelText="Cancelar" okText="Confirmar">
+      <ion-option value="1">Total</ion-option>
+      <ion-option value="2">Paracial</ion-option>
+      <ion-option value="3">Limitado</ion-option>
+      <ion-option value="4">Visualizar Apenas</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <button (click)="share(this.email, this.rights)" color="light" ion-button block>Compartilhar</button>
+  </ion-item>
+</ion-list>
+
+<ion-list *ngIf="showScreen == 'unshare'">
+  <ion-list-header color="primary">
+    Opções para deletar Compartilhamentos
+  </ion-list-header>
+  <ion-item>
+    <ion-label>Nome do Dspositivo</ion-label>
+    <ion-input disabled="true" [(ngModel)]="item.DB.Name" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Email</ion-label>
+    <ion-input disabled="false" placeholder="Email para apagar compartilhamento" [(ngModel)]="this.email" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <button (click)="unshare(this.email)" color="light" ion-button block>Apagar Compartilhamento</button>
+  </ion-item>
+  <ion-item>
+    <button (click)="unshareAllUser()" color="light" ion-button block>Apagar Todos Compartilhamentos</button>
+  </ion-item>
+</ion-list>

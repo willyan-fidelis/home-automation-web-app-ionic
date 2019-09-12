@@ -1,0 +1,17 @@
+page-esp-mod1-detail {
+  .content{
+    //background-color: map-get($colors, light)//primary
+  }
+  .ion-card-header {
+    color: map-get($colors, primary);
+  }
+
+  ion-content {
+    color: map-get($colors, light);
+  }
+  ion-icon.ion-icon-header {
+    font-size: 3rem;
+  }
+
+
+}
